@@ -1,52 +1,85 @@
 <template>
-  <div class="asset-grid-page">
-    <div class="asset-grid-toolbar">
-      <div class="asset-filter-group" role="group" aria-label="Filter by type">
-        <button
-          v-for="type in filterTypes"
-          :key="type"
-          :class="['asset-filter-btn', { 'asset-filter-btn--active': activeFilter === type }]"
-          @click="activeFilter = type"
+  <div class="asset-grid-container">
+    <aside class="asset-sidebar">
+      <h2 class="sidebar-title">Library Stats</h2>
+      <div class="stats-item">
+        <span class="stats-label">Total Assets</span>
+        <span class="stats-value">{{ assets.length }}</span>
+      </div>
+      <div class="stats-item" v-for="count, type in typeCounts" :key="type">
+        <span class="stats-label">{{ type }}s</span>
+        <span class="stats-value">{{ count }}</span>
+      </div>
+      
+      <div class="sidebar-info-card mt-6">
+        <div class="framework-badge framework-badge--vue">Vue Reactivity</div>
+        <p class="text-xs text-slate-400 mt-2">
+          This sidebar uses computed properties to stay in sync with the asset list in real-time.
+        </p>
+      </div>
+    </aside>
+
+    <div class="asset-grid-main">
+      <div class="asset-grid-toolbar">
+        <div class="asset-filter-group" role="group" aria-label="Filter by type">
+          <button
+            v-for="type in filterTypes"
+            :key="type"
+            :class="['asset-filter-btn', { 'asset-filter-btn--active': activeFilter === type }]"
+            @click="activeFilter = type"
+          >
+            {{ type.charAt(0).toUpperCase() + type.slice(1) }}
+          </button>
+        </div>
+        <div class="asset-search">
+          <input
+            v-model="searchQuery"
+            type="text"
+            class="asset-search-input"
+            placeholder="Search assets..."
+            aria-label="Search assets"
+          />
+        </div>
+      </div>
+
+      <div class="batch-actions-bar" v-if="selectedIds.size > 0">
+        <span>{{ selectedIds.size }} items selected</span>
+        <button class="btn btn-sm btn-secondary" @click="selectedIds.clear()">Clear</button>
+        <button class="btn btn-sm btn-primary" @click="handleBatchDelete">Delete Selected</button>
+      </div>
+
+      <div class="asset-grid" role="list" aria-label="Media assets">
+        <div
+          v-for="asset in filteredAssets"
+          :key="asset.id"
+          :class="['asset-card', { 'asset-card--selected': selectedIds.has(asset.id) }]"
+          role="listitem"
+          @click="toggleSelection(asset.id)"
         >
-          {{ type.charAt(0).toUpperCase() + type.slice(1) }}
-        </button>
+          <div :class="['asset-preview', `asset-preview--${asset.type}`]">
+            <span class="asset-type-badge">{{ asset.type.toUpperCase() }}</span>
+            <input 
+              type="checkbox" 
+              class="asset-checkbox" 
+              :checked="selectedIds.has(asset.id)"
+              @click.stop
+              @change="toggleSelection(asset.id)"
+            />
+          </div>
+          <div class="asset-info">
+            <p class="asset-name">{{ asset.name }}</p>
+            <p class="asset-meta">{{ asset.size }} &middot; {{ asset.dimensions }}</p>
+          </div>
+          <div class="asset-actions" @click.stop>
+            <button class="asset-btn" @click="copyAssetUrl(asset)">URL</button>
+          </div>
+        </div>
       </div>
-      <div class="asset-search">
-        <input
-          v-model="searchQuery"
-          type="text"
-          class="asset-search-input"
-          placeholder="Search assets..."
-          aria-label="Search assets"
-        />
-      </div>
-    </div>
 
-    <div class="asset-grid" role="list" aria-label="Media assets">
-      <div
-        v-for="asset in filteredAssets"
-        :key="asset.id"
-        class="asset-card"
-        role="listitem"
-      >
-        <div :class="['asset-preview', `asset-preview--${asset.type}`]">
-          <span class="asset-type-label">{{ asset.type.toUpperCase() }}</span>
-        </div>
-        <div class="asset-info">
-          <p class="asset-name">{{ asset.name }}</p>
-          <p class="asset-meta">{{ asset.size }} &middot; {{ asset.dimensions }}</p>
-          <p class="asset-date">{{ formatDate(asset.uploadedAt) }}</p>
-        </div>
-        <div class="asset-actions">
-          <button class="asset-btn" @click="copyAssetUrl(asset)">Copy URL</button>
-          <button class="asset-btn asset-btn--danger" @click="handleDelete(asset.id)">Delete</button>
-        </div>
-      </div>
+      <p v-if="filteredAssets.length === 0" class="asset-empty">
+        No assets match your search.
+      </p>
     </div>
-
-    <p v-if="filteredAssets.length === 0" class="asset-empty">
-      No assets match your search.
-    </p>
   </div>
 </template>
 
@@ -88,6 +121,32 @@ type FilterType = (typeof filterTypes)[number];
 
 const activeFilter = ref<FilterType>("all");
 const searchQuery = ref("");
+const selectedIds = ref(new Set<string>());
+
+const typeCounts = computed(() => {
+  return assets.value.reduce((acc, asset) => {
+    acc[asset.type] = (acc[asset.type] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+});
+
+function toggleSelection(id: string) {
+  if (selectedIds.value.has(id)) {
+    selectedIds.value.delete(id);
+  } else {
+    selectedIds.value.add(id);
+  }
+}
+
+function handleBatchDelete() {
+  const count = selectedIds.value.size;
+  assets.value = assets.value.filter(a => !selectedIds.value.has(a.id));
+  selectedIds.value.clear();
+  store.getState().addNotification({ 
+    type: "info", 
+    message: `Batch deleted ${count} assets successfully.` 
+  });
+}
 
 const filteredAssets = computed(() => {
   return assets.value.filter((asset) => {
