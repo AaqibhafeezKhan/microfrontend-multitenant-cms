@@ -10,10 +10,21 @@ module.exports = {
     publicPath: "/collab/",
     clean: true,
   },
-  resolve: { extensions: [".ts", ".js", ".svelte"] },
+  resolve: {
+    extensions: [".ts", ".js", ".svelte"],
+    conditionNames: ["svelte", "browser", "import"],
+  },
   module: {
     rules: [
-      { test: /\.svelte$/, use: "svelte-loader" },
+      {
+        test: /\.svelte$/,
+        use: {
+          loader: "svelte-loader",
+          options: {
+            preprocess: require("svelte-preprocess")(),
+          },
+        },
+      },
       { test: /\.tsx?$/, use: "ts-loader", exclude: /node_modules/ },
       { test: /\.css$/, use: [MiniCssExtractPlugin.loader, "css-loader"] },
     ],

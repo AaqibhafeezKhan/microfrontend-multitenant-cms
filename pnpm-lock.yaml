@@ -170,6 +170,9 @@ importers:
       svelte-loader:
         specifier: ^3.2.3
         version: 3.2.4(svelte@4.2.20)
+      svelte-preprocess:
+        specifier: ^5.1.4
+        version: 5.1.4(postcss@8.5.8)(svelte@4.2.20)(typescript@5.9.3)
       ts-loader:
         specifier: ^9.5.1
         version: 9.5.7(typescript@5.9.3)(webpack@5.105.4(webpack-cli@5.1.4))
