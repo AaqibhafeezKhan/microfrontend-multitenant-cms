@@ -312,3 +312,4 @@ Changing tenant at runtime updates all MFEs simultaneously because they all refe
 ## For multiple apps site
 
 https://github.com/aaqib-dev-labs/microfrontends-multitenant-cms
+
