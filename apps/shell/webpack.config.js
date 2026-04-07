@@ -61,7 +61,7 @@ module.exports = (env, argv) => {
       }),
       new HtmlWebpackPlugin({
         template: "./src/index.html",
-        favicon: false,
+        favicon: "./src/assets/favicon.png",
       }),
       new MiniCssExtractPlugin({
         filename: "[name].[contenthash].css",
