@@ -3,12 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3005",
-    "build": "next build",
-    "start": "next start -p 3005",
+    "dev": "webpack serve --config webpack.config.js --mode development",
+    "build": "webpack --config webpack.config.js --mode production",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
-    "clean": "rimraf .next out"
+    "clean": "rimraf dist .next out"
   },
   "dependencies": {
     "@cms/event-bus": "workspace:*",
@@ -19,12 +18,20 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "recharts": "^2.12.4",
+    "single-spa-react": "^5.0.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
+    "css-loader": "^7.1.1",
+    "html-webpack-plugin": "^5.6.0",
     "rimraf": "^5.0.5",
-    "typescript": "^5.4.5"
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
   }
 }

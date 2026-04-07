@@ -83,6 +83,8 @@ jobs:
           cp -r apps/collab/dist/* gh-pages/collab/
           mkdir -p gh-pages/settings
           cp -r apps/settings/dist/* gh-pages/settings/
+          mkdir -p gh-pages/analytics
+          cp -r apps/analytics/dist/* gh-pages/analytics/
           echo "/* /index.html 200" > gh-pages/_redirects
 
       - name: Deploy to GitHub Pages
