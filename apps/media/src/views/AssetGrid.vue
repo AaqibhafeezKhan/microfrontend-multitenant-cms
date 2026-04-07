@@ -84,9 +84,11 @@
           <div class="asset-info">
             <p class="asset-name">{{ asset.name }}</p>
             <p class="asset-meta">{{ asset.size }} &middot; {{ asset.dimensions }}</p>
+            <p class="asset-path">{{ asset.path }}</p>
           </div>
           <div class="asset-actions" @click.stop>
             <button class="asset-btn" @click="copyAssetUrl(asset)">URL</button>
+            <button class="asset-btn" @click="copyAssetPath(asset)">Path</button>
           </div>
         </div>
       </div>
@@ -118,18 +120,19 @@ interface MediaAsset {
   dimensions: string;
   uploadedAt: string;
   url: string;
+  path: string;
   tenantId: string;
 }
 
 const store = useSharedStore;
 
 const assets = ref<MediaAsset[]>([
-  { id: "asset_001", name: "hero-banner.jpg", type: "image", size: "2.4 MB", dimensions: "1920x1080", uploadedAt: "2024-03-15T11:00:00Z", url: "https://cdn.acme.cms.com/assets/hero-banner.jpg", tenantId: "tenant_acme_001" },
-  { id: "asset_002", name: "product-overview.mp4", type: "video", size: "48 MB", dimensions: "1280x720", uploadedAt: "2024-03-14T09:30:00Z", url: "https://cdn.acme.cms.com/assets/product-overview.mp4", tenantId: "tenant_acme_001" },
-  { id: "asset_003", name: "brand-guidelines.pdf", type: "document", size: "5.1 MB", dimensions: "—", uploadedAt: "2024-03-12T14:00:00Z", url: "https://cdn.acme.cms.com/assets/brand-guidelines.pdf", tenantId: "tenant_acme_001" },
-  { id: "asset_004", name: "team-photo.png", type: "image", size: "3.8 MB", dimensions: "2400x1600", uploadedAt: "2024-03-10T16:45:00Z", url: "https://cdn.acme.cms.com/assets/team-photo.png", tenantId: "tenant_acme_001" },
-  { id: "asset_005", name: "podcast-ep42.mp3", type: "audio", size: "62 MB", dimensions: "—", uploadedAt: "2024-03-08T08:00:00Z", url: "https://cdn.acme.cms.com/assets/podcast-ep42.mp3", tenantId: "tenant_acme_001" },
-  { id: "asset_006", name: "feature-diagram.png", type: "image", size: "1.2 MB", dimensions: "1600x900", uploadedAt: "2024-03-05T13:00:00Z", url: "https://cdn.acme.cms.com/assets/feature-diagram.png", tenantId: "tenant_acme_001" },
+  { id: "asset_001", name: "hero-banner.jpg", type: "image", size: "2.4 MB", dimensions: "1920x1080", uploadedAt: "2024-03-15T11:00:00Z", url: "https://cdn.acme.cms.com/assets/hero-banner.jpg", path: "/assets/hero-banner.jpg", tenantId: "tenant_acme_001" },
+  { id: "asset_002", name: "product-overview.mp4", type: "video", size: "48 MB", dimensions: "1280x720", uploadedAt: "2024-03-14T09:30:00Z", url: "https://cdn.acme.cms.com/assets/product-overview.mp4", path: "/assets/product-overview.mp4", tenantId: "tenant_acme_001" },
+  { id: "asset_003", name: "brand-guidelines.pdf", type: "document", size: "5.1 MB", dimensions: "—", uploadedAt: "2024-03-12T14:00:00Z", url: "https://cdn.acme.cms.com/assets/brand-guidelines.pdf", path: "/assets/brand-guidelines.pdf", tenantId: "tenant_acme_001" },
+  { id: "asset_004", name: "team-photo.png", type: "image", size: "3.8 MB", dimensions: "2400x1600", uploadedAt: "2024-03-10T16:45:00Z", url: "https://cdn.acme.cms.com/assets/team-photo.png", path: "/assets/team-photo.png", tenantId: "tenant_acme_001" },
+  { id: "asset_005", name: "podcast-ep42.mp3", type: "audio", size: "62 MB", dimensions: "—", uploadedAt: "2024-03-08T08:00:00Z", url: "https://cdn.acme.cms.com/assets/podcast-ep42.mp3", path: "/assets/podcast-ep42.mp3", tenantId: "tenant_acme_001" },
+  { id: "asset_006", name: "feature-diagram.png", type: "image", size: "1.2 MB", dimensions: "1600x900", uploadedAt: "2024-03-05T13:00:00Z", url: "https://cdn.acme.cms.com/assets/feature-diagram.png", path: "/assets/feature-diagram.png", tenantId: "tenant_acme_001" },
 ]);
 
 type FilterType = (typeof filterTypes)[number];
@@ -192,6 +195,11 @@ function formatDate(iso: string): string {
 function copyAssetUrl(asset: MediaAsset) {
   navigator.clipboard.writeText(asset.url);
   store.getState().addNotification({ type: "success", message: `URL copied for ${asset.name}` });
+}
+
+function copyAssetPath(asset: MediaAsset) {
+  navigator.clipboard.writeText(asset.path);
+  store.getState().addNotification({ type: "success", message: `Path copied for ${asset.name}` });
 }
 
 function handleDelete(assetId: string) {
