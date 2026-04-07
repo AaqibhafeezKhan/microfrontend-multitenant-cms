@@ -103,6 +103,8 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
     }, 800);
   }
 
+  const [showPreview, setShowPreview] = useState(true);
+
   return (
     <div className="content-editor">
       <div className="editor-toolbar">
@@ -111,8 +113,15 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
             {isEditMode ? "Editing article" : "New article"}
           </span>
           <span className="editor-wordcount">{wordCount} words</span>
+          <div className="framework-badge framework-badge--react">React State Sync</div>
         </div>
         <div className="editor-actions">
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowPreview(!showPreview)}
+          >
+            {showPreview ? "Hide Preview" : "Show Preview"}
+          </button>
           <button
             className="btn btn-secondary"
             onClick={() => navigate("/editorial")}
@@ -120,79 +129,61 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
             Cancel
           </button>
           <button
-            className="btn btn-secondary"
-            onClick={() => handleSave("draft")}
-            disabled={isSaving}
-          >
-            {isSaving ? "Saving..." : "Save Draft"}
-          </button>
-          <button
             className="btn btn-primary"
             onClick={() => handleSave("published")}
             disabled={isSaving || !form.title.trim()}
           >
-            Publish
+            {isSaving ? "Publishing..." : "Publish"}
           </button>
         </div>
       </div>
 
-      <div className="editor-form">
-        <input
-          className="editor-title-input"
-          type="text"
-          placeholder="Article title"
-          value={form.title}
-          onChange={(e) => handleTitleChange(e.target.value)}
-          aria-label="Article title"
-        />
-
-        <div className="editor-slug-row">
-          <label className="editor-slug-label" htmlFor="editor-slug">
-            Slug
-          </label>
+      <div className={`editor-container ${showPreview ? "editor-container--with-preview" : ""}`}>
+        <div className="editor-form">
           <input
-            id="editor-slug"
-            className="editor-slug-input"
+            className="editor-title-input"
             type="text"
-            value={form.slug}
+            placeholder="Article title"
+            value={form.title}
+            onChange={(e) => handleTitleChange(e.target.value)}
+            aria-label="Article title"
+          />
+
+          <div className="editor-slug-row">
+            <label className="editor-slug-label" htmlFor="editor-slug">
+              Slug
+            </label>
+            <input
+              id="editor-slug"
+              className="editor-slug-input"
+              type="text"
+              value={form.slug}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, slug: e.target.value }))
+              }
+            />
+          </div>
+
+          <textarea
+            className="editor-body"
+            placeholder="Write your article content here..."
+            value={form.body}
             onChange={(e) =>
-              setForm((prev) => ({ ...prev, slug: e.target.value }))
+              setForm((prev) => ({ ...prev, body: e.target.value }))
             }
+            aria-label="Article body"
+            rows={24}
           />
         </div>
 
-        {isMultiLang && (
-          <div className="editor-locale-row">
-            <label className="editor-locale-label" htmlFor="editor-locale">
-              Language
-            </label>
-            <select
-              id="editor-locale"
-              className="editor-locale-select"
-              value={form.locale}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, locale: e.target.value }))
-              }
-            >
-              {tenant.supportedLocales.map((locale) => (
-                <option key={locale} value={locale}>
-                  {locale}
-                </option>
-              ))}
-            </select>
+        {showPreview && (
+          <div className="preview-pane">
+            <h2 className="preview-title">{form.title || "Untitled Article"}</h2>
+            <div className="preview-body">
+              {form.body || "Start typing to see the preview..."}
+            </div>
           </div>
         )}
-
-        <textarea
-          className="editor-body"
-          placeholder="Write your article content here..."
-          value={form.body}
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, body: e.target.value }))
-          }
-          aria-label="Article body"
-          rows={24}
-        />
       </div>
     </div>
   );

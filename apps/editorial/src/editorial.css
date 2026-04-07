@@ -279,6 +279,17 @@
   gap: var(--space-2);
 }
 
+.editor-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  transition: all var(--transition-slow);
+}
+
+.editor-container--with-preview {
+  grid-template-columns: 1fr 1fr;
+}
+
 .editor-form {
   display: flex;
   flex-direction: column;
@@ -287,6 +298,32 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.preview-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.preview-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.preview-body {
+  white-space: pre-wrap;
+  line-height: 1.8;
+  color: var(--color-text-primary);
 }
 
 .editor-title-input {
