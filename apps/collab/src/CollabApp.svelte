@@ -1,3 +1,7 @@
+<script lang="ts">
+  import { resolveTenant } from "@cms/tenant-config";
+  import CollabSession from "./components/CollabSession.svelte";
+  import ParticipantList from "./components/ParticipantList.svelte";
   import { spring } from "svelte/motion";
   const tenant = resolveTenant();
 
