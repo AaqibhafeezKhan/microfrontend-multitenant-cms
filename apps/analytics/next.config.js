@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
-  basePath: "/analytics",
-  assetPrefix: "/analytics",
+  output: "export",
+  trailingSlash: true,
   transpilePackages: ["@cms/event-bus", "@cms/tenant-config", "@cms/shared-store"],
-  experimental: {
-    optimizePackageImports: ["recharts"],
+  images: {
+    unoptimized: true,
   },
 };
 

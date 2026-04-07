@@ -1,39 +1,19 @@
 [build]
-  command    = "pnpm install && pnpm turbo run build --filter=@cms/shell"
-  publish    = "apps/shell/dist"
-  base       = "."
+  command   = "pnpm install && pnpm turbo run build --filter=@cms/shell"
+  publish   = "apps/shell/dist"
+  base      = "."
 
 [build.environment]
-  NODE_VERSION          = "20.11.0"
-  PNPM_VERSION          = "9.1.0"
-  EDITORIAL_REMOTE_URL  = "https://editorial--cms.netlify.app/remoteEntry.js"
-  MEDIA_REMOTE_URL      = "https://media--cms.netlify.app/remoteEntry.js"
-  AUTH_REMOTE_URL       = "https://auth--cms.netlify.app/remoteEntry.js"
-  COLLAB_REMOTE_URL     = "https://collab--cms.netlify.app/remoteEntry.js"
-  ANALYTICS_REMOTE_URL  = "https://analytics--cms.netlify.app/remoteEntry.js"
-  SETTINGS_REMOTE_URL   = "https://settings--cms.netlify.app/remoteEntry.js"
+  NODE_VERSION         = "20.11.0"
+  PNPM_VERSION         = "9.1.0"
+  EDITORIAL_REMOTE_URL = "https://editorial-cms.netlify.app/remoteEntry.js"
+  MEDIA_REMOTE_URL     = "https://media-cms.netlify.app/remoteEntry.js"
+  AUTH_REMOTE_URL      = "https://auth-cms.netlify.app/remoteEntry.js"
+  COLLAB_REMOTE_URL    = "https://collab-cms.netlify.app/remoteEntry.js"
+  ANALYTICS_REMOTE_URL = "https://analytics-cms.netlify.app/remoteEntry.js"
+  SETTINGS_REMOTE_URL  = "https://settings-cms.netlify.app/remoteEntry.js"
 
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
   status = 200
-
-[context.editorial]
-  command = "pnpm turbo run build --filter=@cms/editorial"
-  publish = "apps/editorial/dist"
-
-[context.media]
-  command = "pnpm turbo run build --filter=@cms/media"
-  publish = "apps/media/dist"
-
-[context.auth]
-  command = "pnpm turbo run build --filter=@cms/auth"
-  publish = "apps/auth/dist"
-
-[context.collab]
-  command = "pnpm turbo run build --filter=@cms/collab"
-  publish = "apps/collab/dist"
-
-[context.settings]
-  command = "pnpm turbo run build --filter=@cms/settings"
-  publish = "apps/settings/dist"
