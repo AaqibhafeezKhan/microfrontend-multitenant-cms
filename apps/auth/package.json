@@ -1,0 +1,36 @@
+{
+  "name": "@cms/auth",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "ng serve --port 3003",
+    "build": "ng build --configuration production",
+    "type-check": "tsc --noEmit",
+    "lint": "ng lint",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@angular/animations": "^17.3.8",
+    "@angular/common": "^17.3.8",
+    "@angular/compiler": "^17.3.8",
+    "@angular/core": "^17.3.8",
+    "@angular/forms": "^17.3.8",
+    "@angular/platform-browser": "^17.3.8",
+    "@angular/platform-browser-dynamic": "^17.3.8",
+    "@angular/router": "^17.3.8",
+    "@cms/event-bus": "workspace:*",
+    "@cms/tenant-config": "workspace:*",
+    "@cms/shared-store": "workspace:*",
+    "@cms/ui-tokens": "workspace:*",
+    "rxjs": "^7.8.1",
+    "single-spa-angular": "^9.2.0",
+    "zone.js": "~0.14.5"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.3.8",
+    "@angular/cli": "^17.3.8",
+    "@angular/compiler-cli": "^17.3.8",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5"
+  }
+}

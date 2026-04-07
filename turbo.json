@@ -1,0 +1,35 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "remoteCache": {
+    "enabled": true
+  },
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "out/**", "build/**"],
+      "env": [
+        "SHELL_PUBLIC_URL",
+        "EDITORIAL_REMOTE_URL",
+        "MEDIA_REMOTE_URL",
+        "AUTH_REMOTE_URL",
+        "COLLAB_REMOTE_URL",
+        "ANALYTICS_REMOTE_URL",
+        "SETTINGS_REMOTE_URL"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "outputs": []
+    },
+    "type-check": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

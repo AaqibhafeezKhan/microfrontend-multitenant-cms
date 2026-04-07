@@ -1,0 +1,33 @@
+{
+  "name": "@cms/collab",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "webpack serve --config webpack.config.js --mode development",
+    "build": "webpack --config webpack.config.js --mode production",
+    "type-check": "svelte-check --tsconfig ./tsconfig.json",
+    "lint": "eslint src --ext .ts,.svelte",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@cms/event-bus": "workspace:*",
+    "@cms/tenant-config": "workspace:*",
+    "@cms/shared-store": "workspace:*",
+    "@cms/ui-tokens": "workspace:*",
+    "single-spa-svelte": "^2.0.1",
+    "svelte": "^4.2.15"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.1",
+    "mini-css-extract-plugin": "^2.9.0",
+    "rimraf": "^5.0.5",
+    "svelte-check": "^3.7.1",
+    "svelte-loader": "^3.2.3",
+    "ts-loader": "^9.5.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}

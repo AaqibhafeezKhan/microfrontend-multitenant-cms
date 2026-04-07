@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/shell/webpack.config.js",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "apps/shell/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/analytics/(.*)",
+      "dest": "https://analytics-cms.vercel.app/analytics/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "EDITORIAL_REMOTE_URL": "@editorial_remote_url",
+    "MEDIA_REMOTE_URL": "@media_remote_url",
+    "AUTH_REMOTE_URL": "@auth_remote_url",
+    "COLLAB_REMOTE_URL": "@collab_remote_url",
+    "ANALYTICS_REMOTE_URL": "@analytics_remote_url",
+    "SETTINGS_REMOTE_URL": "@settings_remote_url"
+  }
+}

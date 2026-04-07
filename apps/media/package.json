@@ -1,0 +1,36 @@
+{
+  "name": "@cms/media",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "webpack serve --config webpack.config.js --mode development",
+    "build": "webpack --config webpack.config.js --mode production",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint src --ext .ts,.vue",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@cms/event-bus": "workspace:*",
+    "@cms/tenant-config": "workspace:*",
+    "@cms/shared-store": "workspace:*",
+    "@cms/ui-tokens": "workspace:*",
+    "pinia": "^2.1.7",
+    "single-spa-vue": "^2.5.0",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/language-plugin-pug": "^2.0.19",
+    "css-loader": "^7.1.1",
+    "mini-css-extract-plugin": "^2.9.0",
+    "rimraf": "^5.0.5",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "vue-loader": "^17.4.2",
+    "vue-tsc": "^2.0.16",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}

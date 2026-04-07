@@ -1,0 +1,30 @@
+{
+  "name": "@cms/analytics",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3005",
+    "build": "next build",
+    "start": "next start -p 3005",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "clean": "rimraf .next out"
+  },
+  "dependencies": {
+    "@cms/event-bus": "workspace:*",
+    "@cms/tenant-config": "workspace:*",
+    "@cms/shared-store": "workspace:*",
+    "@cms/ui-tokens": "workspace:*",
+    "next": "^14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.12.4",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5"
+  }
+}

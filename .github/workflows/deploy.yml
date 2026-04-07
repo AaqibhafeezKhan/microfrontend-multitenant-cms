@@ -1,0 +1,93 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.1.0
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all remotes
+        run: pnpm turbo run build --filter=!@cms/shell
+        env:
+          EDITORIAL_REMOTE_URL: ${{ secrets.EDITORIAL_REMOTE_URL }}
+          MEDIA_REMOTE_URL: ${{ secrets.MEDIA_REMOTE_URL }}
+          AUTH_REMOTE_URL: ${{ secrets.AUTH_REMOTE_URL }}
+          COLLAB_REMOTE_URL: ${{ secrets.COLLAB_REMOTE_URL }}
+          ANALYTICS_REMOTE_URL: ${{ secrets.ANALYTICS_REMOTE_URL }}
+          SETTINGS_REMOTE_URL: ${{ secrets.SETTINGS_REMOTE_URL }}
+
+      - name: Build shell
+        run: pnpm turbo run build --filter=@cms/shell
+        env:
+          EDITORIAL_REMOTE_URL: ${{ secrets.EDITORIAL_REMOTE_URL }}
+          MEDIA_REMOTE_URL: ${{ secrets.MEDIA_REMOTE_URL }}
+          AUTH_REMOTE_URL: ${{ secrets.AUTH_REMOTE_URL }}
+          COLLAB_REMOTE_URL: ${{ secrets.COLLAB_REMOTE_URL }}
+          ANALYTICS_REMOTE_URL: ${{ secrets.ANALYTICS_REMOTE_URL }}
+          SETTINGS_REMOTE_URL: ${{ secrets.SETTINGS_REMOTE_URL }}
+
+      - name: Assemble gh-pages output
+        run: |
+          mkdir -p gh-pages
+          cp -r apps/shell/dist/* gh-pages/
+          mkdir -p gh-pages/editorial
+          cp -r apps/editorial/dist/* gh-pages/editorial/
+          mkdir -p gh-pages/media
+          cp -r apps/media/dist/* gh-pages/media/
+          mkdir -p gh-pages/auth
+          cp -r apps/auth/dist/* gh-pages/auth/
+          mkdir -p gh-pages/collab
+          cp -r apps/collab/dist/* gh-pages/collab/
+          mkdir -p gh-pages/settings
+          cp -r apps/settings/dist/* gh-pages/settings/
+          echo "/* /index.html 200" > gh-pages/_redirects
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./gh-pages
+          cname: cms.example.com
