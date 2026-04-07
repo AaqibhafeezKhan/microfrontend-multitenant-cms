@@ -5,7 +5,12 @@ import { RouterOutlet } from "@angular/router";
   selector: "cms-auth-root",
   standalone: true,
   imports: [RouterOutlet],
-  template: `<router-outlet />`,
+  template: `
+    <header class="auth-header">
+      <div class="framework-badge framework-badge--angular">Built with Angular 17</div>
+    </header>
+    <router-outlet />
+  `,
   styleUrls: ["./auth.css"],
 })
 export class AppComponent {}

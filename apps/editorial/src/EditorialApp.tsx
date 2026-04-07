@@ -21,6 +21,7 @@ export function EditorialApp({ tenant }: EditorialAppProps) {
         {isFlagEnabled(tenant, "versionHistory") && (
           <span className="editorial-feature-badge">Version History</span>
         )}
+        <div className="framework-badge framework-badge--react">Built with React 18</div>
       </header>
       <nav className="editorial-subnav" aria-label="Editorial navigation">
         <NavLink to="/editorial" end className={({ isActive }) => `editorial-nav-link ${isActive ? "editorial-nav-link--active" : ""}`}>

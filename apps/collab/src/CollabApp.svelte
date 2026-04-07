@@ -6,6 +6,20 @@
   const tenant = resolveTenant();
 
   let activeView: "session" | "participants" = "session";
+  let content = "";
+  let isTyping = false;
+  let typingTimeout: any;
+
+  $: charCount = content.length;
+  $: wordCount = content.trim().split(/\s+/).filter(Boolean).length;
+
+  function handleInput() {
+    isTyping = true;
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      isTyping = false;
+    }, 1000);
+  }
 </script>
 
 <div class="collab-root">
@@ -30,6 +44,25 @@
   </nav>
 
   <div class="collab-content">
+    <div class="framework-badge framework-badge--svelte">Built with Svelte 4</div>
+    
+    <div class="reactive-playground">
+      <textarea 
+        bind:value={content} 
+        on:input={handleInput}
+        placeholder="Type here to see Svelte's reactivity..."
+        class="collab-textarea"
+      ></textarea>
+      
+      <div class="collab-stats">
+        <span>{charCount} characters</span>
+        <span>{wordCount} words</span>
+        {#if isTyping}
+          <span class="typing-indicator italic">Typing...</span>
+        {/if}
+      </div>
+    </div>
+
     {#if activeView === "session"}
       <CollabSession {tenant} />
     {:else}

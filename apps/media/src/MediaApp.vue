@@ -3,6 +3,7 @@
     <header class="media-header">
       <h1 class="media-title">Media Library</h1>
       <p class="media-subtitle">{{ tenant.branding.companyName }}</p>
+      <div class="framework-badge framework-badge--vue">Built with Vue 3</div>
     </header>
     <nav class="media-subnav" aria-label="Media navigation">
       <RouterLink to="/media" class="media-nav-link" active-class="media-nav-link--active" exact>

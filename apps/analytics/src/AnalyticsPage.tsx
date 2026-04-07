@@ -24,6 +24,7 @@ export default function AnalyticsPage() {
       <header className={styles.header}>
         <h1 className={styles.title}>Analytics</h1>
         <p className={styles.subtitle}>Content performance and audience insights</p>
+        <div className="framework-badge framework-badge--react">Built with React 18 (Federated)</div>
         <div className={styles.dateRange}>
           <span className={styles.dateLabel}>Last 30 days</span>
         </div>

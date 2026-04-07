@@ -80,7 +80,17 @@ export class CmsSettingsRoot extends LitElement {
         <header class="settings-header">
           <h1>Settings</h1>
           <p class="settings-subtitle">${this.tenantName}</p>
+          <div class="framework-badge framework-badge--lit">Built with Lit 3</div>
         </header>
+        <div class="complementary-feature card">
+          <label class="text-sm font-semibold mb-2 block">Complementary Feature: CSS Variable Injection</label>
+          <input 
+            type="color" 
+            @input=${(e: any) => document.documentElement.style.setProperty("--color-primary", e.target.value)} 
+            value="#6366f1"
+          />
+          <span class="text-xs text-slate-400 ml-2">Update primary theme color globally across all MFEs via CSS variables.</span>
+        </div>
         <nav class="settings-nav" aria-label="Settings navigation">
           <button
             class="nav-btn ${this.activeView === "profile" ? "nav-btn--active" : ""}"

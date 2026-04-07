@@ -73,3 +73,22 @@
   --color-border: rgba(255, 255, 255, 0.08);
   --color-border-strong: rgba(255, 255, 255, 0.16);
 }
+
+.framework-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.5rem;
+}
+
+.framework-badge--react { background-color: #61dafb; color: #000000; }
+.framework-badge--vue { background-color: #42b883; color: #ffffff; }
+.framework-badge--angular { background-color: #dd0031; color: #ffffff; }
+.framework-badge--svelte { background-color: #ff3e00; color: #ffffff; }
+.framework-badge--lit { background-color: #324fff; color: #ffffff; }
+.framework-badge--nextjs { background-color: #000000; color: #ffffff; border: 1px solid #ffffff; }
