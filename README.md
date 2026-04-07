@@ -307,3 +307,8 @@ Tenant branding overrides these tokens at shell bootstrap:
 ```
 
 Changing tenant at runtime updates all MFEs simultaneously because they all reference the same CSS custom properties.
+
+
+## For multiple apps site
+
+https://github.com/aaqib-dev-labs/microfrontends-multitenant-cms
