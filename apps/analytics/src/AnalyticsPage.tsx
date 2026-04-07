@@ -1,10 +1,8 @@
-import React from "react";
 import { OverviewMetrics } from "./components/OverviewMetrics";
 import { PageviewsChart } from "./components/PageviewsChart";
 import { TopContentTable } from "./components/TopContentTable";
 import { AudienceChart } from "./components/AudienceChart";
 
-// Fallback styles since we aren't using next.js modules here
 const styles = {
   page: "analytics-page space-y-8",
   header: "analytics-header space-y-2",
