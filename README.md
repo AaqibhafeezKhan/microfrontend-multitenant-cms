@@ -44,15 +44,15 @@ A production-grade monorepo demonstrating microfrontend architecture with intent
 
 Every framework choice reflects a real team constraint or capability trade-off, not a showcase for its own sake.
 
-| App | Framework | Justification |
-|---|---|---|
-| `shell` | Single-SPA + Webpack 5 | Industry standard MFE orchestrator. Module Federation handles shared dependency deduplication at the network layer — React, Vue, Zustand are loaded once regardless of how many remotes consume them. |
-| `editorial` | React 18 | Largest ecosystem, best TypeScript DX for complex form state. React Router + Zustand is a battle-tested composition for content editing flows with draft/publish lifecycles. |
-| `media` | Vue 3 + Pinia | Vue 3's Composition API + `<script setup>` is genuinely the most ergonomic DX for reactive list/grid UI with local state. Pinia's devtools integration is valuable for debugging asset state. |
-| `auth` | Angular 17 | Angular's opinionated DI and reactive forms are the correct choice for auth forms that require strict validation, service isolation, and testability. Angular standalone components avoid the NgModule ceremony. |
-| `collab` | Svelte 4 | Svelte compiles away the framework. Real-time collaborative UI (cursor tracking, participant presence) benefits enormously from Svelte's fine-grained reactivity without VDOM diffing overhead. |
-| `analytics` | Next.js 14 (App Router) | Analytics dashboards are read-heavy and benefit from RSC server rendering. The App Router's async components allow data co-location without client JS overhead for the metrics server component. |
-| `settings` | Lit 3 | Settings panels map directly to Web Components — they are genuinely framework-agnostic UI primitives. Shadow DOM provides CSS isolation without build-time tooling. This is the correct use case for custom elements. |
+| App | Framework | Showcase Feature | Justification |
+|---|---|---|---|
+| `shell` | Single-SPA + Webpack 5 | **Runtime Composition** | Industry standard MFE orchestrator. Module Federation handles shared dependency deduplication at the network layer — React, Vue, Zustand are loaded once regardless of how many remotes consume them. |
+| `editorial` | React 18 | **Live Editor Preview** | Largest ecosystem, best TypeScript DX for complex form state. The editor uses React's state sync to provide a real-time side-by-side preview of content as it is written. |
+| `media` | Vue 3 + Pinia | **Reactive Library Stats** | Vue 3's Composition API is genuinely the most ergonomic DX for reactive list/grid UI. The sidebar uses computed properties to show instant library statistics and batch selection counts. |
+| `auth` | Angular 17 | **Reactive Form Validation** | Angular's opinionated DI and reactive forms are the correct choice for auth. The registration flow demonstrates multi-step validation and service-based business logic isolation. |
+| `collab` | Svelte 4 | **Spring-Motion Sticky Notes** | Svelte compiles away the framework. The collaborative sticky note canvas uses Svelte's `spring` motion primitives for physics-based animations with zero VDOM overhead. |
+| `analytics` | React 18 / Webpack | **Optimized Data Sorting** | Migrated from Next.js to showcase Module Federation compatibility. It uses `useMemo` for high-performance client-side sorting of large metrics datasets. |
+| `settings` | Lit 3 | **Theme Design Studio** | Settings panels map directly to Web Components. The Design Studio leverages Lit's efficient property binding to dynamically update component previews via CSS variable injection. |
 
 ---
 
