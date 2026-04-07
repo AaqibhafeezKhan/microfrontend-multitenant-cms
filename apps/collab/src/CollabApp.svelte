@@ -2,6 +2,7 @@
   import { resolveTenant } from "@cms/tenant-config";
   import CollabSession from "./components/CollabSession.svelte";
   import ParticipantList from "./components/ParticipantList.svelte";
+  import StickyNote from "./components/StickyNote.svelte";
   import { spring } from "svelte/motion";
   const tenant = resolveTenant();
 
@@ -35,15 +36,25 @@
     }
   }
 
-  $: charCount = content.length;
-  $: wordCount = content.trim().split(/\s+/).filter(Boolean).length;
+  let lines: { points: string, color: string }[] = [];
+  let isDrawing = false;
+  let currentPoints = "";
 
-  function handleInput() {
-    isTyping = true;
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => {
-      isTyping = false;
-    }, 1000);
+  function startDrawing(e: MouseEvent) {
+    isDrawing = true;
+    currentPoints = `${e.offsetX},${e.offsetY}`;
+    lines = [...lines, { points: currentPoints, color: "#6366f1" }];
+  }
+
+  function draw(e: MouseEvent) {
+    if (!isDrawing) return;
+    currentPoints += ` ${e.offsetX},${e.offsetY}`;
+    lines[lines.length - 1].points = currentPoints;
+    lines = lines; // Trigger reactivity for nested update
+  }
+
+  function stopDrawing() {
+    isDrawing = false;
   }
 </script>
 
@@ -76,33 +87,44 @@
 
     <div class="sticky-notes-canvas">
       {#each notes as note (note.id)}
-        <div 
-          class="sticky-note" 
-          style="transform: translate({$note.x}px, {$note.y}px); background: {note.color};"
-          on:mousedown={() => (true)}
-          on:mousemove={(e) => handleDrag(note.id, e)}
-        >
-          <textarea bind:value={note.text}></textarea>
-        </div>
+        <StickyNote 
+          bind:text={note.text}
+          x={note.x}
+          y={note.y}
+          color={note.color}
+          onDrag={(e) => handleDrag(note.id, e)}
+        />
       {/each}
     </div>
     
     <div class="reactive-playground mt-8">
-      <label class="text-xs font-semibold mb-2 block uppercase text-slate-500">Live Editor Sync (Local State)</label>
-      <textarea 
-        bind:value={content} 
-        on:input={handleInput}
-        placeholder="Type here to see Svelte's direct reactive binding..."
-        class="collab-textarea"
-      ></textarea>
-      
-      <div class="collab-stats">
-        <span>{charCount} chars</span>
-        <span>{wordCount} words</span>
-        {#if isTyping}
-          <span class="typing-indicator text-primary italic">Typing...</span>
-        {/if}
+      <div class="flex items-center justify-between mb-4">
+        <label class="text-xs font-semibold uppercase text-slate-500">Shared Whiteboard (Fine-grained SVG)</label>
+        <button class="btn btn-xs btn-secondary" on:click={() => lines = []}>Clear Board</button>
       </div>
+      
+      <svg 
+        class="whiteboard-canvas" 
+        on:mousedown={startDrawing}
+        on:mousemove={draw}
+        on:mouseup={stopDrawing}
+        on:mouseleave={stopDrawing}
+      >
+        {#each lines as line}
+          <polyline 
+            points={line.points} 
+            fill="none" 
+            stroke={line.color} 
+            stroke-width="3" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+          />
+        {/each}
+      </svg>
+      
+      <p class="text-[10px] text-slate-500 mt-2 italic">
+        Svelte compiles SVG properties into direct DOM updates, making complex drawing operations extremely fast.
+      </p>
     </div>
   </div>
 </div>
