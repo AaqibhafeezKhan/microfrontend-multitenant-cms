@@ -9,11 +9,11 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: "Editorial", path: "/editorial" },
-  { label: "Media", path: "/media", featureFlag: "mediaLibrary" },
-  { label: "Collab", path: "/collab", featureFlag: "collaborativeEditing" },
-  { label: "Analytics", path: "/analytics", featureFlag: "advancedAnalytics" },
-  { label: "Settings", path: "/settings" },
+  { label: "Editorial", path: "#/editorial" },
+  { label: "Media", path: "#/media", featureFlag: "mediaLibrary" },
+  { label: "Collab", path: "#/collab", featureFlag: "collaborativeEditing" },
+  { label: "Analytics", path: "#/analytics", featureFlag: "advancedAnalytics" },
+  { label: "Settings", path: "#/settings" },
 ];
 
 export function renderNav(tenant: TenantConfig): void {
@@ -42,7 +42,7 @@ export function renderNav(tenant: TenantConfig): void {
           .join("")}
       </ul>
       <div class="nav-user" id="nav-user-area">
-        <a href="/login" class="nav-login-btn">Sign In</a>
+        <a href="#/login" class="nav-login-btn">Sign In</a>
       </div>
     </div>
   `;
@@ -52,18 +52,17 @@ export function renderNav(tenant: TenantConfig): void {
       e.preventDefault();
       const path = (link as HTMLAnchorElement).dataset["path"];
       if (path) {
-        window.history.pushState({}, "", path);
-        window.dispatchEvent(new PopStateEvent("popstate"));
+        window.location.hash = path;
         updateActiveLink(navEl, path);
       }
     });
   });
 
-  updateActiveLink(navEl, window.location.pathname);
+  updateActiveLink(navEl, window.location.hash || "#/");
 
   useSharedStore.subscribe(
-    (state) => state.auth.user,
-    (user) => {
+    (state: any) => state.auth.user,
+    (user: any) => {
       const userArea = document.getElementById("nav-user-area");
       if (!userArea) return;
       if (user) {
@@ -77,11 +76,10 @@ export function renderNav(tenant: TenantConfig): void {
           .getElementById("nav-logout")
           ?.addEventListener("click", () => {
             useSharedStore.getState().clearAuth();
-            window.history.pushState({}, "", "/login");
-            window.dispatchEvent(new PopStateEvent("popstate"));
+            window.location.hash = "#/login";
           });
       } else {
-        userArea.innerHTML = `<a href="/login" class="nav-login-btn">Sign In</a>`;
+        userArea.innerHTML = `<a href="#/login" class="nav-login-btn">Sign In</a>`;
       }
     }
   );
