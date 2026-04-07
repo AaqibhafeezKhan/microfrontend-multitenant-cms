@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].[contenthash].js",
-    publicPath: "auto",
+    publicPath: "/collab/",
     clean: true,
   },
   resolve: { extensions: [".ts", ".js", ".svelte"] },

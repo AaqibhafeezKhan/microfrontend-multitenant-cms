@@ -1,19 +1,62 @@
 [build]
-  command   = "pnpm install && pnpm turbo run build --filter=@cms/shell"
-  publish   = "apps/shell/dist"
-  base      = "."
+  command = "pnpm install && node scripts/build-unified.js"
+  publish = "dist"
+  base    = "."
 
 [build.environment]
-  NODE_VERSION         = "20.11.0"
-  PNPM_VERSION         = "9.1.0"
-  EDITORIAL_REMOTE_URL = "https://editorial-cms.netlify.app/remoteEntry.js"
-  MEDIA_REMOTE_URL     = "https://media-cms.netlify.app/remoteEntry.js"
-  AUTH_REMOTE_URL      = "https://auth-cms.netlify.app/remoteEntry.js"
-  COLLAB_REMOTE_URL    = "https://collab-cms.netlify.app/remoteEntry.js"
-  ANALYTICS_REMOTE_URL = "https://analytics-cms.netlify.app/remoteEntry.js"
-  SETTINGS_REMOTE_URL  = "https://settings-cms.netlify.app/remoteEntry.js"
+  NODE_VERSION = "20.11.0"
+  PNPM_VERSION = "9.1.0"
+  NODE_ENV     = "production"
+
+[[redirects]]
+  from   = "/editorial/*"
+  to     = "/editorial/:splat"
+  status = 200
+
+[[redirects]]
+  from   = "/media/*"
+  to     = "/media/:splat"
+  status = 200
+
+[[redirects]]
+  from   = "/auth/*"
+  to     = "/auth/:splat"
+  status = 200
+
+[[redirects]]
+  from   = "/collab/*"
+  to     = "/collab/:splat"
+  status = 200
+
+[[redirects]]
+  from   = "/analytics/*"
+  to     = "/analytics/:splat"
+  status = 200
+
+[[redirects]]
+  from   = "/settings/*"
+  to     = "/settings/:splat"
+  status = 200
 
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Access-Control-Allow-Origin  = "*"
+    Cache-Control                = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/remoteEntry.js"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control               = "no-cache"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options       = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"

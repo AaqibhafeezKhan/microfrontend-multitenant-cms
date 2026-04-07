@@ -5,14 +5,23 @@ const path = require("path");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const remoteUrls = {
-  editorial: process.env.EDITORIAL_REMOTE_URL || "http://localhost:3001/remoteEntry.js",
-  media: process.env.MEDIA_REMOTE_URL || "http://localhost:3002/remoteEntry.js",
-  auth: process.env.AUTH_REMOTE_URL || "http://localhost:3003/remoteEntry.js",
-  collab: process.env.COLLAB_REMOTE_URL || "http://localhost:3004/remoteEntry.js",
-  analytics: process.env.ANALYTICS_REMOTE_URL || "http://localhost:3005/remoteEntry.js",
-  settings: process.env.SETTINGS_REMOTE_URL || "http://localhost:3006/remoteEntry.js",
+const subPathRemotes = {
+  editorial: "editorial@/editorial/remoteEntry.js",
+  media: "media@/media/remoteEntry.js",
+  auth: "auth@/auth/remoteEntry.js",
+  collab: "collab@/collab/remoteEntry.js",
+  settings: "settings@/settings/remoteEntry.js",
 };
+
+const devRemotes = {
+  editorial: "editorial@http://localhost:3001/remoteEntry.js",
+  media: "media@http://localhost:3002/remoteEntry.js",
+  auth: "auth@http://localhost:3003/remoteEntry.js",
+  collab: "collab@http://localhost:3004/remoteEntry.js",
+  settings: "settings@http://localhost:3006/remoteEntry.js",
+};
+
+const remotes = isProduction ? subPathRemotes : devRemotes;
 
 module.exports = {
   entry: "./src/index.ts",
@@ -41,14 +50,7 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: "shell",
-      remotes: {
-        editorial: `editorial@${remoteUrls.editorial}`,
-        media: `media@${remoteUrls.media}`,
-        auth: `auth@${remoteUrls.auth}`,
-        collab: `collab@${remoteUrls.collab}`,
-        analytics: `analytics@${remoteUrls.analytics}`,
-        settings: `settings@${remoteUrls.settings}`,
-      },
+      remotes,
       shared: {
         "single-spa": { singleton: true, requiredVersion: "^5.9.4" },
         zustand: { singleton: true, requiredVersion: "^4.5.2" },

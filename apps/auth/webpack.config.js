@@ -1,28 +1,27 @@
 const { ModuleFederationPlugin } = require("webpack").container;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { VueLoaderPlugin } = require("vue-loader");
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.ts",
+  entry: "./src/bootstrap.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].[contenthash].js",
-    publicPath: "/media/",
+    publicPath: "/auth/",
     clean: true,
   },
   resolve: {
-    extensions: [".ts", ".js", ".vue"],
-    alias: { "@": path.resolve(__dirname, "src") },
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
-      { test: /\.vue$/, use: "vue-loader" },
       {
         test: /\.tsx?$/,
         use: {
           loader: "ts-loader",
-          options: { appendTsSuffixTo: [/\.vue$/] },
+          options: {
+            transpileOnly: true,
+          },
         },
         exclude: /node_modules/,
       },
@@ -33,21 +32,22 @@ module.exports = {
     ],
   },
   plugins: [
-    new VueLoaderPlugin(),
     new ModuleFederationPlugin({
-      name: "media",
+      name: "auth",
       filename: "remoteEntry.js",
-      exposes: { "./bootstrap": "./src/bootstrap.ts" },
+      exposes: {
+        "./bootstrap": "./src/bootstrap.ts",
+      },
       shared: {
-        vue: { singleton: true, requiredVersion: "^3.4.21" },
-        "vue-router": { singleton: true, requiredVersion: "^4.3.2" },
-        pinia: { singleton: true, requiredVersion: "^2.1.7" },
+        "single-spa": { singleton: true, requiredVersion: "^5.9.4" },
+        rxjs: { singleton: true, requiredVersion: "^7.8.1" },
+        "zone.js": { singleton: true, requiredVersion: "~0.14.5" },
       },
     }),
     new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
   ],
   devServer: {
-    port: 3002,
+    port: 3003,
     historyApiFallback: true,
     hot: true,
     headers: { "Access-Control-Allow-Origin": "*" },
