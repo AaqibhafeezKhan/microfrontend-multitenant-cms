@@ -67,6 +67,17 @@ import { Subscription } from "rxjs";
         <div class="auth-demo-hint">
           <p>Demo credentials: <strong>admin@acme.com</strong> / <strong>password123</strong></p>
         </div>
+
+        <div class="jwt-debug-panel mt-8">
+          <div class="framework-badge framework-badge--angular mb-4">Angular DevTools</div>
+          <p class="text-[10px] uppercase font-bold text-slate-500 mb-2">Internal Claims Explorer</p>
+          <div class="claims-json">
+            <pre>{{ mockClaims | json }}</pre>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-2 italic">
+            This panel uses Angular's built-in <b>JsonPipe</b> to debug runtime session claims.
+          </p>
+        </div>
       </div>
     </div>
   `,
@@ -79,6 +90,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   tenant: TenantConfig | null = null;
   private subscription = new Subscription();
 
+  mockClaims = {
+    sub: "1234567890",
+    name: "John Doe",
+    iat: 1516239022,
+    roles: ["admin", "editor"],
+    tenant: "acme"
+  };
+
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit() {
@@ -88,7 +107,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     this.subscription.add(
-      this.authService.tenant$.subscribe((t) => (this.tenant = t))
+      this.authService.tenant$.subscribe((t: any) => (this.tenant = t))
     );
   }
 

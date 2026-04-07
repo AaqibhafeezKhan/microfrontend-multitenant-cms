@@ -19,7 +19,22 @@
       </div>
     </aside>
 
-    <div class="asset-grid-main">
+    <div 
+      class="asset-grid-main"
+      @dragover.prevent
+      @dragenter="isDragging = true"
+      @dragleave="isDragging = false"
+      @drop.prevent="handleDrop"
+    >
+      <transition name="fade">
+        <div v-if="isDragging" class="drag-overlay">
+          <div class="drag-overlay-card">
+            <div class="drag-icon">📁</div>
+            <p class="drag-text">Drop assets here to upload</p>
+          </div>
+        </div>
+      </transition>
+
       <div class="asset-grid-toolbar">
         <div class="asset-filter-group" role="group" aria-label="Filter by type">
           <button
@@ -122,6 +137,18 @@ type FilterType = (typeof filterTypes)[number];
 const activeFilter = ref<FilterType>("all");
 const searchQuery = ref("");
 const selectedIds = ref(new Set<string>());
+const isDragging = ref(false);
+
+function handleDrop(e: DragEvent) {
+  isDragging.value = false;
+  const files = e.dataTransfer?.files;
+  if (files && files.length > 0) {
+    store.getState().addNotification({ 
+      type: "success", 
+      message: `Simulating upload of ${files.length} files...` 
+    });
+  }
+}
 
 const typeCounts = computed(() => {
   return assets.value.reduce((acc, asset) => {

@@ -1,5 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import "./cms-toast";
+import { CmsToast } from "./cms-toast";
 
 @customElement("cms-settings-root")
 export class CmsSettingsRoot extends LitElement {
@@ -83,13 +85,19 @@ export class CmsSettingsRoot extends LitElement {
           <div class="framework-badge framework-badge--lit">Built with Lit 3</div>
         </header>
         <div class="complementary-feature card">
-          <label class="text-sm font-semibold mb-2 block">Complementary Feature: CSS Variable Injection</label>
-          <input 
-            type="color" 
-            @input=${(e: any) => document.documentElement.style.setProperty("--color-primary", e.target.value)} 
-            value="#6366f1"
-          />
-          <span class="text-xs text-slate-400 ml-2">Update primary theme color globally across all MFEs via CSS variables.</span>
+          <label class="text-sm font-semibold mb-2 block">Complementary Feature: Theme Sync</label>
+          <div class="flex items-center gap-4">
+            <input 
+              type="color" 
+              @input=${(e: any) => {
+                const color = e.target.value;
+                document.documentElement.style.setProperty("--color-primary", color);
+                CmsToast.instance.show(`Theme updated to ${color}`, 'success');
+              }} 
+              value="#6366f1"
+            />
+            <span class="text-xs text-slate-400">Update global primary color and notify system.</span>
+          </div>
         </div>
         <nav class="settings-nav" aria-label="Settings navigation">
           <button
@@ -110,6 +118,7 @@ export class CmsSettingsRoot extends LitElement {
             ? html`<cms-settings-profile tenant-id="${this.tenantId}"></cms-settings-profile>`
             : html`<cms-settings-appearance tenant-id="${this.tenantId}" tenant-slug="${this.tenantSlug}"></cms-settings-appearance>`}
         </div>
+        <cms-toast></cms-toast>
       </div>
     `;
   }

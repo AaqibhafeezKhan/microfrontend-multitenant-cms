@@ -105,6 +105,44 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
 
   const [showPreview, setShowPreview] = useState(true);
 
+  // Undo/Redo History Implementation
+  const [history, setHistory] = useState<{ past: EditorFormState[], future: EditorFormState[] }>({
+    past: [],
+    future: []
+  });
+
+  function updateFormWithHistory(newForm: EditorFormState) {
+    setHistory(prev => ({
+      past: [...prev.past, form],
+      future: []
+    }));
+    setForm(newForm);
+  }
+
+  function handleUndo() {
+    if (history.past.length === 0) return;
+    const previous = history.past[history.past.length - 1];
+    const newPast = history.past.slice(0, history.past.length - 1);
+    
+    setHistory({
+      past: newPast,
+      future: [form, ...history.future]
+    });
+    setForm(previous);
+  }
+
+  function handleRedo() {
+    if (history.future.length === 0) return;
+    const next = history.future[0];
+    const newFuture = history.future.slice(1);
+
+    setHistory({
+      past: [...history.past, form],
+      future: newFuture
+    });
+    setForm(next);
+  }
+
   return (
     <div className="content-editor">
       <div className="editor-toolbar">
@@ -113,9 +151,27 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
             {isEditMode ? "Editing article" : "New article"}
           </span>
           <span className="editor-wordcount">{wordCount} words</span>
-          <div className="framework-badge framework-badge--react">React State Sync</div>
+          <div className="framework-badge framework-badge--react">React State Sync + Rewind</div>
         </div>
         <div className="editor-actions">
+          <div className="history-group mr-4">
+            <button
+              className="btn btn-sm btn-secondary"
+              onClick={handleUndo}
+              disabled={history.past.length === 0}
+              title="Undo"
+            >
+              ⟲
+            </button>
+            <button
+              className="btn btn-sm btn-secondary"
+              onClick={handleRedo}
+              disabled={history.future.length === 0}
+              title="Redo"
+            >
+              ⟳
+            </button>
+          </div>
           <button
             className="btn btn-secondary"
             onClick={() => setShowPreview(!showPreview)}
@@ -145,7 +201,14 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
             type="text"
             placeholder="Article title"
             value={form.title}
-            onChange={(e) => handleTitleChange(e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value;
+              updateFormWithHistory({
+                ...form,
+                title: val,
+                slug: slugify(val)
+              });
+            }}
             aria-label="Article title"
           />
 
@@ -158,9 +221,7 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
               className="editor-slug-input"
               type="text"
               value={form.slug}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, slug: e.target.value }))
-              }
+              onChange={(e) => updateFormWithHistory({ ...form, slug: e.target.value })}
             />
           </div>
 
@@ -168,9 +229,7 @@ export function ContentEditor({ tenant }: ContentEditorProps) {
             className="editor-body"
             placeholder="Write your article content here..."
             value={form.body}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, body: e.target.value }))
-            }
+            onChange={(e) => updateFormWithHistory({ ...form, body: e.target.value })}
             aria-label="Article body"
             rows={24}
           />
