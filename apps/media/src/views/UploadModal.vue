@@ -69,12 +69,12 @@ function addFilesToQueue(files: FileList | File[]) {
   });
 }
 
-function handleDrop(e: DragEvent) {
+function handleDrop(e: any) {
   isDragOver.value = false;
   if (e.dataTransfer?.files) addFilesToQueue(e.dataTransfer.files);
 }
 
-function handleFileInput(e: Event) {
+function handleFileInput(e: any) {
   const input = e.target as HTMLInputElement;
   if (input.files) addFilesToQueue(input.files);
 }

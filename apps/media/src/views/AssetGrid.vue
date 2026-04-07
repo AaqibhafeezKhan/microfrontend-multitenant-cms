@@ -80,8 +80,8 @@ const assets = ref<MediaAsset[]>([
   { id: "asset_006", name: "feature-diagram.png", type: "image", size: "1.2 MB", dimensions: "1600x900", uploadedAt: "2024-03-05T13:00:00Z", url: "https://cdn.acme.cms.com/assets/feature-diagram.png", tenantId: "tenant_acme_001" },
 ]);
 
-const filterTypes = ["all", "image", "video", "document", "audio"] as const;
-type FilterType = (typeof filterTypes)[number];
+const filterTypes = ref(["all", "image", "video", "document", "audio"] as const);
+type FilterType = (typeof filterTypes.value)[number];
 
 const activeFilter = ref<FilterType>("all");
 const searchQuery = ref("");
