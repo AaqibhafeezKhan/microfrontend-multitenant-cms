@@ -8,7 +8,7 @@ const lifecycles = singleSpaReact({
   React,
   ReactDOMClient,
   rootComponent: AnalyticsPage,
-  errorBoundary(err: any, info: any, props: any) {
+  errorBoundary(err: any, _info: any, _props: any) {
     return (
       <div className="p-4 bg-red-50 text-red-700 rounded-lg">
         <h3 className="font-bold">Analytics microfrontend failed to load</h3>
