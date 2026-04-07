@@ -6,12 +6,12 @@ const path = require("path");
 const isProduction = process.env.NODE_ENV === "production";
 
 const subPathRemotes = {
-  editorial: "editorial@/editorial/remoteEntry.js",
-  media: "media@/media/remoteEntry.js",
-  auth: "auth@/auth/remoteEntry.js",
-  collab: "collab@/collab/remoteEntry.js",
-  settings: "settings@/settings/remoteEntry.js",
-  analytics: "analytics@/analytics/remoteEntry.js",
+  editorial: "editorial@editorial/remoteEntry.js",
+  media: "media@media/remoteEntry.js",
+  auth: "auth@auth/remoteEntry.js",
+  collab: "collab@collab/remoteEntry.js",
+  settings: "settings@settings/remoteEntry.js",
+  analytics: "analytics@analytics/remoteEntry.js",
 };
 
 const devRemotes = {
@@ -30,7 +30,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].[contenthash].js",
-    publicPath: "auto",
+    publicPath: "./",
     clean: true,
   },
   resolve: {
