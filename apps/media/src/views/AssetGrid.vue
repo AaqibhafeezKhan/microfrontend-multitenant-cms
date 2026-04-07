@@ -139,7 +139,7 @@ const searchQuery = ref("");
 const selectedIds = ref(new Set<string>());
 const isDragging = ref(false);
 
-function handleDrop(e: DragEvent) {
+function handleDrop(e: any) {
   isDragging.value = false;
   const files = e.dataTransfer?.files;
   if (files && files.length > 0) {
