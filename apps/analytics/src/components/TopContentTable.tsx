@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import styles from "./TopContentTable.module.css";
 
 interface ContentRow {
