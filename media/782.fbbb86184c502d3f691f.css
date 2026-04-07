@@ -29,6 +29,7 @@
 .asset-info { padding: var(--space-3) var(--space-4); }
 .asset-name { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .asset-meta { font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: 2px; }
+.asset-path { font-size: 10px; font-family: monospace; color: var(--color-text-secondary); margin-top: 4px; opacity: 0.6; word-break: break-all; }
 .asset-date { font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: 2px; }
 .asset-actions { display: flex; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-top: 1px solid var(--color-border); }
 .asset-btn { flex: 1; padding: var(--space-2); border-radius: var(--radius-sm); font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); border: 1px solid var(--color-border-strong); background: transparent; color: var(--color-text-secondary); cursor: pointer; transition: all var(--transition-base); }
