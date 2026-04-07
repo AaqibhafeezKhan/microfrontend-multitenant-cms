@@ -108,6 +108,43 @@ export class CmsSettingsAppearance extends LitElement {
     }
 
     .apply-btn:hover { background: var(--color-secondary, #4f46e5); }
+    .design-studio {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px dashed var(--color-border, rgba(255,255,255,0.08));
+    }
+
+    .component-preview {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.1);
+      border-radius: 12px;
+    }
+
+    .preview-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 200ms ease;
+    }
+
+    .preview-btn--primary {
+      background: var(--preview-color, #6366f1);
+      color: white;
+      border: none;
+    }
+
+    .preview-btn--outline {
+      background: transparent;
+      border: 2px solid var(--preview-color, #6366f1);
+      color: var(--preview-color, #6366f1);
+    }
   `;
 
   @property({ type: String, attribute: "tenant-id" }) tenantId = "";
@@ -140,6 +177,8 @@ export class CmsSettingsAppearance extends LitElement {
   render() {
     return html`
       <div class="appearance-card">
+        <div class="framework-badge framework-badge--lit mb-6">Lit Property Binding</div>
+        
         <div>
           <p class="section-title">Theme</p>
           <div class="theme-options">
@@ -168,7 +207,6 @@ export class CmsSettingsAppearance extends LitElement {
                   style="background-color: ${c.value}"
                   title="${c.label}"
                   aria-label="${c.label}"
-                  aria-pressed="${this.selectedColor === c.value}"
                   @click=${() => (this.selectedColor = c.value)}
                 ></button>
               `
@@ -176,7 +214,18 @@ export class CmsSettingsAppearance extends LitElement {
           </div>
         </div>
 
-        <button class="apply-btn" @click=${this.applyAppearance}>Apply Changes</button>
+        <div class="design-studio">
+          <p class="section-title">Component Laboratory</p>
+          <div class="component-preview" style="--preview-color: ${this.selectedColor}">
+            <button class="preview-btn preview-btn--primary">Primary Button</button>
+            <button class="preview-btn preview-btn--outline">Outline Button</button>
+          </div>
+          <p class="text-xs text-slate-400 mt-2">
+            Lit efficiently patches the DOM when state properties like <b>selectedColor</b> change.
+          </p>
+        </div>
+
+        <button class="apply-btn" @click=${this.applyAppearance}>Apply Globally</button>
       </div>
     `;
   }
