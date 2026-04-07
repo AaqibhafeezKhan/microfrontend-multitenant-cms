@@ -11,6 +11,7 @@ const subPathRemotes = {
   auth: "auth@/auth/remoteEntry.js",
   collab: "collab@/collab/remoteEntry.js",
   settings: "settings@/settings/remoteEntry.js",
+  analytics: "analytics@/analytics/remoteEntry.js",
 };
 
 const devRemotes = {
@@ -19,6 +20,7 @@ const devRemotes = {
   auth: "auth@http://localhost:3003/remoteEntry.js",
   collab: "collab@http://localhost:3004/remoteEntry.js",
   settings: "settings@http://localhost:3006/remoteEntry.js",
+  analytics: "analytics@http://localhost:3005/remoteEntry.js",
 };
 
 const remotes = isProduction ? subPathRemotes : devRemotes;
