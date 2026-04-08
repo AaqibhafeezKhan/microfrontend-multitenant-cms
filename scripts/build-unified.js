@@ -15,19 +15,19 @@ const mfes = [
 ];
 
 console.log("==> Building shared packages");
-run("pnpm turbo run build --filter=@cms/event-bus --filter=@cms/tenant-config --filter=@cms/shared-store --filter=@cms/ui-tokens");
+run("npx turbo run build --filter=@cms/event-bus --filter=@cms/tenant-config --filter=@cms/shared-store --filter=@cms/ui-tokens");
 
 console.log("==> Building microfrontends");
 for (const mfe of mfes) {
   console.log(`    Building ${mfe.filter}`);
-  run(`pnpm turbo run build --filter=${mfe.filter}`);
+  run(`npx turbo run build --filter=${mfe.filter}`);
 }
 
-console.log("==> Building analytics (Next.js static export)");
-run("pnpm turbo run build --filter=@cms/analytics");
+console.log("==> Building analytics");
+run("npx turbo run build --filter=@cms/analytics");
 
 console.log("==> Building shell");
-run("pnpm turbo run build --filter=@cms/shell");
+run("npx turbo run build --filter=@cms/shell");
 
 console.log("==> Assembling unified dist/");
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -50,7 +50,7 @@ for (const mfe of mfes) {
   copyDir(mfe.srcDir, path.join(DIST, mfe.destName));
 }
 
-copyDir("apps/analytics/out", path.join(DIST, "analytics"));
+copyDir("apps/analytics/dist", path.join(DIST, "analytics"));
 
 console.log("==> Build complete. Output: dist/");
 console.log("    Structure:");
