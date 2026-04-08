@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaCMS — Enterprise Multitenant CMS Platform</title>
+  <meta name="description" content="NovaCMS is a production-ready microfrontend CMS platform supporting multi-tenant architecture, collaborative editing, media management, and advanced analytics." />
+  <meta property="og:title" content="NovaCMS — Enterprise CMS Platform" />
+  <meta property="og:description" content="Microfrontend-based multi-tenant CMS with real-time collaboration, analytics, and media management." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="app-root">
+    <nav id="cms-nav" role="navigation" aria-label="Main navigation"></nav>
+    <div id="cms-layout">
+      <aside id="cms-sidebar" aria-label="Sidebar navigation"></aside>
+      <main id="cms-main" role="main"></main>
+    </div>
+    <div id="cms-notifications" aria-live="polite"></div>
+    <div id="cms-modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true"></div>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
