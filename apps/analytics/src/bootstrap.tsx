@@ -8,14 +8,22 @@ const lifecycles = singleSpaReact({
   React,
   ReactDOMClient,
   rootComponent: AnalyticsPage,
-  errorBoundary(err: any, _info: any, _props: any) {
+  domElementGetter: () =>
+    document.getElementById("single-spa-application:analytics") ??
+    (() => {
+      const el = document.createElement("div");
+      el.id = "single-spa-application:analytics";
+      document.body.appendChild(el);
+      return el;
+    })(),
+  errorBoundary(err: any) {
     return (
-      <div className="p-4 bg-red-50 text-red-700 rounded-lg">
-        <h3 className="font-bold">Analytics microfrontend failed to load</h3>
-        <p className="text-sm">{err.message}</p>
+      <div style={{ padding: "1rem", color: "#ef4444" }}>
+        <strong>Analytics failed to load:</strong> {err.message}
       </div>
     );
   },
 });
 
 export const { bootstrap, mount, unmount } = lifecycles;
+

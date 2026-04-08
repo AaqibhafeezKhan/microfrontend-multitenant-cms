@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOMClient from "react-dom/client";
 import singleSpaReact from "single-spa-react";
 import { MemoryRouter } from "react-router-dom";
 import type { TenantConfig } from "@cms/tenant-config";
@@ -11,7 +11,7 @@ interface EditorialCustomProps {
 
 const lifecycles = singleSpaReact({
   React,
-  ReactDOM,
+  ReactDOMClient,
   rootComponent: (props: EditorialCustomProps) => (
     <MemoryRouter>
       <EditorialApp tenant={props.tenant} />

@@ -11,6 +11,6 @@ import { RouterOutlet } from "@angular/router";
     </header>
     <router-outlet />
   `,
-  styleUrls: ["./auth.css"],
+  styleUrl: "./auth.css",
 })
 export class AppComponent {}

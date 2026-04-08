@@ -81,7 +81,7 @@ import { Subscription } from "rxjs";
       </div>
     </div>
   `,
-  styleUrls: ["../auth.css"],
+  styleUrl: "../auth.css",
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
