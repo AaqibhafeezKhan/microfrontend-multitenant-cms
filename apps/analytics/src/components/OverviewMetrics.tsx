@@ -1,5 +1,7 @@
 import styles from "./OverviewMetrics.module.css";
 
+const s = styles || ({} as any);
+
 interface Metric {
   label: string;
   value: string;
@@ -18,12 +20,12 @@ const metrics: Metric[] = [
 
 export function OverviewMetrics() {
   return (
-    <div className={styles.grid}>
+    <div className={s.grid}>
       {metrics.map((metric) => (
-        <div key={metric.label} className={styles.card}>
-          <p className={styles.label}>{metric.label}</p>
-          <p className={styles.value}>{metric.value}</p>
-          <span className={`${styles.delta} ${styles[`delta--${metric.trend}`]}`}>
+        <div key={metric.label} className={s.card}>
+          <p className={s.label}>{metric.label}</p>
+          <p className={s.value}>{metric.value}</p>
+          <span className={`${s.delta} ${s[`delta--${metric.trend}`]}`}>
             {metric.delta}
           </span>
         </div>

@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import styles from "./TopContentTable.module.css";
 
+const s = styles || ({} as any);
+
 interface ContentRow {
   title: string;
   slug: string;
@@ -43,9 +45,9 @@ export function TopContentTable() {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={s.wrapper}>
       <div className="framework-badge framework-badge--react mb-4 italic">React useMemo Sorting</div>
-      <table className={styles.table} aria-label="Top performing content">
+      <table className={s.table} aria-label="Top performing content">
         <thead>
           <tr>
             <th onClick={() => toggleSort("title")} style={{ cursor: 'pointer' }}>Title</th>
@@ -58,17 +60,17 @@ export function TopContentTable() {
         </thead>
         <tbody>
           {sortedRows.map((row) => (
-            <tr key={row.slug} className={styles.row}>
+            <tr key={row.slug} className={s.row}>
               <td>
-                <span className={styles.contentTitle}>{row.title}</span>
-                <span className={styles.contentSlug}>/{row.slug}</span>
+                <span className={s.contentTitle}>{row.title}</span>
+                <span className={s.contentSlug}>/{row.slug}</span>
               </td>
-              <td className={styles.numeric}>{row.views.toLocaleString()}</td>
-              <td className={styles.numeric}>{row.uniqueVisitors.toLocaleString()}</td>
-              <td className={styles.numeric}>{row.avgTimeOnPage}</td>
-              <td className={styles.numeric}>{row.bounceRate}</td>
+              <td className={s.numeric}>{row.views.toLocaleString()}</td>
+              <td className={s.numeric}>{row.uniqueVisitors.toLocaleString()}</td>
+              <td className={s.numeric}>{row.avgTimeOnPage}</td>
+              <td className={s.numeric}>{row.bounceRate}</td>
               <td>
-                <span className={`${styles.trendBadge} ${styles[`trend--${row.trend}`]}`}>
+                <span className={`${s.trendBadge} ${s[`trend--${row.trend}`]}`}>
                   {row.trend === "up" ? "Up" : "Down"}
                 </span>
               </td>
