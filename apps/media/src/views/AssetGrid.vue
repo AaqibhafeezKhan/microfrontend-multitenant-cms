@@ -106,7 +106,7 @@ import type { TenantConfig } from "@cms/tenant-config";
 import { eventBus } from "@cms/event-bus";
 import { useSharedStore } from "@cms/shared-store";
 
-export const filterTypes = ["all", "image", "video", "document", "audio"] as const;
+const filterTypes = ["all", "image", "video", "document", "audio"] as const;
 
 defineProps<{ tenant: TenantConfig }>();
 
