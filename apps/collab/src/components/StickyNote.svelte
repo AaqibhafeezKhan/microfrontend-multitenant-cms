@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { Spring } from "svelte/motion";
+
 
   export let text: string;
-  export let x: Spring<number>;
-  export let y: Spring<number>;
+  export let x: number;
+  export let y: number;
   export let color: string;
   export let onDrag: (event: MouseEvent) => void;
 
@@ -16,7 +16,7 @@
 
 <div 
   class="sticky-note" 
-  style="transform: translate({$x}px, {$y}px); background: {color};"
+  style="transform: translate({x}px, {y}px); background: {color};"
   on:mousemove={handleMouseMove}
 >
   <textarea bind:value={text}></textarea>

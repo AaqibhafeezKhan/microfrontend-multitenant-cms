@@ -129,4 +129,6 @@
   </div>
 </div>
 
-<style src="./collab.css"></style>
+<style global>
+  @import './collab.css';
+</style>
